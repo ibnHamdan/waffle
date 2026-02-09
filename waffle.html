@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="waffle.css">
+    <script src="words.js"></script>
+    <script src="waffle.js" defer></script>
+</head>
+<body>
+    <div class="game" id="game">
+        <div class="grid-container">
+            <section class="grid" tabindex="0"></section>
+            <div class="warning-overlay">
+                <div class="warning">Failed to generate game. Please try again.</div>
+            </div>
+        </div>
+        <p class="moves"><span class="swapCounter">0</span> <span class="swapNoun">swaps</span> remaining</p>
+        <p class="controls">
+            <button class="newGame">new game</button>
+            <button class="reset">reset</button>
+            <button class="reshuffle">reshuffle</button>
+        </p>
+    </div>
+</body>
+</html>

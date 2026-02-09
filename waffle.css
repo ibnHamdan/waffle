@@ -1,0 +1,132 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.example {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.grid-container {
+    position: relative;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    user-select: none;
+    position: relative;
+}
+
+.warning-overlay {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(50%, 50%, 50%, 0.5);
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+}
+
+.warning {
+    text-align: center;
+    background-color: rgb(100% 30% 30%);
+    width: fit-content;
+    height: fit-content;
+    padding: 1em;
+}
+
+.cell {
+    border: none;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    cursor: default;
+    border-radius: 12%;
+    border-bottom: 5px solid rgba(0,0,0,.1);
+    font-family: inherit;
+    font-weight: inherit;
+    font-optical-sizing: auto;
+    font-style: inherit;
+    font-size: 3.2rem;
+    box-sizing: border-box;
+}
+
+.cell.selected {
+    outline: 3px solid black;
+}
+
+.cell[data-active=true] {
+    cursor: pointer;
+}
+
+.cell[data-state=solved] {
+    background-color: #5ab4ac;
+    color: white;
+}
+
+.cell[data-state=hint] {
+    background-color: #d8b365;
+    color: white;
+}
+
+.cell.moving {
+    opacity: 0.2;
+    outline: none;
+}
+
+.moves {
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    color: #aaa;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.swapCounter {
+    opacity: 1.0;
+    font-weight: 700;
+    color: black;
+}
+
+.controls button {
+    font-family: inherit;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 500;
+    font-optical-sizing: auto;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: #aaa;
+    cursor: pointer;
+    padding: 0 1em;
+    background: none;
+    border: none;
+}
