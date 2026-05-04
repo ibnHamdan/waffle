@@ -123,6 +123,11 @@ class Board {
     #counter;
     #selected;
     #focused;
+    #dragSource;
+    #dragGhost;
+    #dragOffsetX;
+    #dragOffsetY;
+    #dragged;
 
     constructor(container, words, initial, counter) {
         const grid = container.querySelector(".grid");
@@ -150,6 +155,8 @@ class Board {
             cell.onmouseleave = (event) => this.#unfocus(event.target);
             cell.onclick = (event) => this.#select(event.target);
             cell.onkeydown = (event) => this.#cellKeyDown(event);
+            cell.onmousedown = (event) => this.#dragStart(event);
+            cell.ontouchstart = (event) => this.#dragStart(event);
         }
 
         this.reset(initial);
@@ -198,6 +205,9 @@ class Board {
     reset(puzzle) {
         this.#selected = null;
         this.#focused = null;
+        this.#dragSource = null;
+        this.#dragGhost = null;
+        this.#dragged = false;
 
         this.#cells.forEach((cell, i) => {
             cell.textContent = puzzle[i];
@@ -209,6 +219,11 @@ class Board {
     }
 
     #select(cell) {
+        if (this.#dragged) {
+            this.#dragged = false;
+            return false;
+        }
+
         if (!this.#counter.ok() || cell.getAttribute("data-state") === "solved") {
             return false;
         }
@@ -265,6 +280,99 @@ class Board {
             });
         }
     }
+
+    #getEventPos(event) {
+        const touch = event.changedTouches?.[0] ?? event.touches?.[0];
+        if (touch) {
+            return { x: touch.clientX, y: touch.clientY };
+        }
+        return { x: event.clientX, y: event.clientY };
+    }
+
+    #dragStart(event) {
+        if (!this.#counter.ok() || event.target.getAttribute("data-state") === "solved") {
+            return;
+        }
+
+        event.preventDefault();
+
+        this.#dragSource = event.target;
+        this.#dragged = false;
+        const pos = this.#getEventPos(event);
+        const rect = this.#dragSource.getBoundingClientRect();
+
+        this.#dragOffsetX = pos.x - rect.left;
+        this.#dragOffsetY = pos.y - rect.top;
+
+        this.#createDragGhost(pos.x, pos.y, this.#dragSource.textContent);
+        this.#dragSource.classList.add("moving");
+
+        const moveHandler = (e) => this.#dragMove(e);
+        const endHandler = (e) => {
+            this.#dragEnd(e);
+            document.removeEventListener("mousemove", moveHandler);
+            document.removeEventListener("mouseup", endHandler);
+            document.removeEventListener("touchmove", moveHandler);
+            document.removeEventListener("touchend", endHandler);
+        };
+
+        document.addEventListener("mousemove", moveHandler, { passive: false });
+        document.addEventListener("mouseup", endHandler);
+        document.addEventListener("touchmove", moveHandler, { passive: false });
+        document.addEventListener("touchend", endHandler, { passive: false });
+    }
+
+    #createDragGhost(x, y, letter) {
+        this.#dragGhost = document.createElement("div");
+        this.#dragGhost.className = "drag-ghost";
+        this.#dragGhost.textContent = letter;
+        document.body.appendChild(this.#dragGhost);
+        this.#positionDragGhost(x, y);
+    }
+
+    #positionDragGhost(x, y) {
+        if (this.#dragGhost) {
+            this.#dragGhost.style.left = `${x - this.#dragOffsetX}px`;
+            this.#dragGhost.style.top = `${y - this.#dragOffsetY}px`;
+        }
+    }
+
+    #dragMove(event) {
+        if (!this.#dragGhost) return;
+        event.preventDefault();
+        this.#dragged = true;
+        const pos = this.#getEventPos(event);
+        this.#positionDragGhost(pos.x, pos.y);
+    }
+
+    #dragEnd(event) {
+        if (!this.#dragSource || !this.#dragGhost) {
+            this.#cleanupDrag();
+            return;
+        }
+
+        this.#dragGhost.style.display = "none";
+
+        const pos = this.#getEventPos(event);
+        const target = document.elementFromPoint(pos.x, pos.y);
+
+        if (target && target.classList.contains("cell") && target !== this.#dragSource) {
+            this.#swap(this.#dragSource, target);
+        }
+
+        this.#cleanupDrag();
+    }
+
+    #cleanupDrag() {
+        if (this.#dragSource) {
+            this.#dragSource.classList.remove("moving");
+            this.#dragSource = null;
+        }
+        if (this.#dragGhost) {
+            this.#dragGhost.remove();
+            this.#dragGhost = null;
+        }
+    }
 }
 
 class SwapCounter {
@@ -286,7 +394,7 @@ class SwapCounter {
     reset(value) {
         this.#count = value;
         this.#counter.textContent = value;
-        this.#noun.textContent = value != 1 ? "swaps" : "swap";
+        this.#noun.textContent = value != 1 ? "تبديلات" : "تبديل";
     }
 
     update() {
@@ -415,3 +523,21 @@ class GameEnvironment {
 }
 
 new GameEnvironment(document.getElementById("game"));
+
+(function() {
+    const themeBtn = document.querySelector(".theme-btn");
+    const html = document.documentElement;
+    const saved = localStorage.getItem("waffle-theme");
+
+    if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.body.classList.add("dark");
+        themeBtn.textContent = "\u2600";
+    }
+
+    themeBtn.onclick = () => {
+        document.body.classList.toggle("dark");
+        const isDark = document.body.classList.contains("dark");
+        themeBtn.textContent = isDark ? "\u2600" : "\u263D";
+        localStorage.setItem("waffle-theme", isDark ? "dark" : "light");
+    };
+})();

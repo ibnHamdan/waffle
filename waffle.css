@@ -1,10 +1,59 @@
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    direction: ltr;
+    flex-shrink: 0;
+}
+
+.topbar-title {
+    font-family: "IBM Plex Sans Arabic", sans-serif;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    flex: 1;
+}
+
+.topbar-btn {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+}
+
+.topbar-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark .topbar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .game {
@@ -13,10 +62,15 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: "Nunito", sans-serif;
+    font-family: "IBM Plex Sans Arabic", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     font-weight: 700;
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 1rem;
+    box-sizing: border-box;
 }
 
 .example {
@@ -29,14 +83,19 @@ body {
 
 .grid-container {
     position: relative;
+    width: 100%;
+    max-width: fit-content;
+    margin: 0 auto;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 7px;
+    gap: clamp(4px, 1.5vw, 7px);
     user-select: none;
     position: relative;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .warning-overlay {
@@ -58,42 +117,67 @@ body {
     width: fit-content;
     height: fit-content;
     padding: 1em;
+    border-radius: 8px;
 }
 
 .cell {
     border: none;
-    width: 2em;
-    height: 2em;
+    width: clamp(2.5rem, 15vw, 3.5rem);
+    height: clamp(2.5rem, 15vw, 3.5rem);
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f5f5f5;
+    background-image: none;
     cursor: default;
     border-radius: 12%;
-    border-bottom: 5px solid rgba(0,0,0,.1);
+    border-bottom: clamp(3px, 1vw, 5px) solid rgba(0,0,0,.1);
     font-family: inherit;
     font-weight: inherit;
     font-optical-sizing: auto;
     font-style: inherit;
-    font-size: 3.2rem;
+    font-size: clamp(1.2rem, 7vw, 2.5rem);
     box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    padding: 0;
+}
+
+body.dark .cell {
+    background-color: #3a3a3c;
+    background-image: none;
+    border-bottom: clamp(3px, 1vw, 5px) solid rgba(255,255,255,.1);
+    color: #ffffff;
+}
+
+body.dark .cell:hover,
+body.dark .cell:active,
+body.dark .cell:focus {
+    background-color: #3a3a3c;
 }
 
 .cell.selected {
     outline: 3px solid black;
 }
 
+body.dark .cell.selected {
+    outline: 3px solid white;
+}
+
 .cell[data-active=true] {
     cursor: pointer;
+    touch-action: none;
 }
 
 .cell[data-state=solved] {
-    background-color: #5ab4ac;
+    background-color: #5ab4ac !important;
     color: white;
 }
 
 .cell[data-state=hint] {
-    background-color: #d8b365;
+    background-color: #d8b365 !important;
     color: white;
 }
 
@@ -102,12 +186,54 @@ body {
     outline: none;
 }
 
+.drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    width: clamp(2.5rem, 15vw, 3.5rem);
+    height: clamp(2.5rem, 15vw, 3.5rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 12%;
+    border-bottom: clamp(3px, 1vw, 5px) solid rgba(0,0,0,.1);
+    font-family: "IBM Plex Sans Arabic", sans-serif;
+    font-weight: 700;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: clamp(1.2rem, 7vw, 2.5rem);
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+}
+
+body.dark .drag-ghost {
+    background-color: #3a3a3c;
+    border-bottom: clamp(3px, 1vw, 5px) solid rgba(255,255,255,.1);
+    color: #ffffff;
+}
+
 .moves {
-    font-size: 1.8rem;
+    font-size: clamp(0.9rem, 4vw, 1.8rem);
     letter-spacing: 0.1rem;
     color: #aaa;
     text-transform: uppercase;
     font-weight: 300;
+    margin: 0.5rem 0;
+}
+
+body.dark .moves {
+    color: #888;
+}
+
+body.dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+body.dark .topbar-title {
+    color: #ffffff;
 }
 
 .swapCounter {
@@ -116,9 +242,22 @@ body {
     color: black;
 }
 
+body.dark .swapCounter {
+    color: white;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 0;
+    margin: 0.5rem 0;
+    padding: 0;
+}
+
 .controls button {
     font-family: inherit;
-    font-size: 1.3rem;
+    font-size: clamp(0.7rem, 3.5vw, 1.3rem);
     font-style: normal;
     font-weight: 500;
     font-optical-sizing: auto;
@@ -126,7 +265,43 @@ body {
     text-transform: uppercase;
     color: #aaa;
     cursor: pointer;
-    padding: 0 1em;
+    padding: 0.5em 0.8em;
     background: none;
     border: none;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark .controls button {
+    color: #888;
+}
+
+@media (max-width: 480px) {
+    .topbar {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .game {
+        padding: 0 0.5rem;
+    }
+
+    .grid {
+        gap: 3px;
+    }
+
+    .cell {
+        width: 16vw;
+        height: 16vw;
+        font-size: clamp(1rem, 6vw, 2rem);
+        border-bottom-width: 3px;
+    }
+
+    .drag-ghost {
+        width: 16vw;
+        height: 16vw;
+        font-size: clamp(1rem, 6vw, 2rem);
+        border-bottom-width: 3px;
+    }
 }
