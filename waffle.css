@@ -122,8 +122,8 @@ body.dark .topbar-btn:hover {
 
 .cell {
     border: none;
-    width: clamp(2.5rem, 15vw, 3.5rem);
-    height: clamp(2.5rem, 15vw, 3.5rem);
+    width: clamp(2.5rem, 15vw, 5.5rem);
+    height: clamp(2.5rem, 15vw, 5.5rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,7 +136,7 @@ body.dark .topbar-btn:hover {
     font-weight: inherit;
     font-optical-sizing: auto;
     font-style: inherit;
-    font-size: clamp(1.2rem, 7vw, 2.5rem);
+    font-size: clamp(1.2rem, 7vw, 3.2rem);
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s;
     -webkit-appearance: none;
@@ -190,8 +190,8 @@ body.dark .cell.selected {
     position: fixed;
     pointer-events: none;
     z-index: 1000;
-    width: clamp(2.5rem, 15vw, 3.5rem);
-    height: clamp(2.5rem, 15vw, 3.5rem);
+    width: clamp(2.5rem, 15vw, 5.5rem);
+    height: clamp(2.5rem, 15vw, 5.5rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -202,7 +202,7 @@ body.dark .cell.selected {
     font-weight: 700;
     font-optical-sizing: auto;
     font-style: normal;
-    font-size: clamp(1.2rem, 7vw, 2.5rem);
+    font-size: clamp(1.2rem, 7vw, 3.2rem);
     box-sizing: border-box;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     opacity: 0.9;
