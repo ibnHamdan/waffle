@@ -531,14 +531,11 @@ new GameEnvironment(document.getElementById("game"));
 
     if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
         document.body.classList.add("dark");
-        themeBtn.textContent = "\u2600";
     }
 
     themeBtn.onclick = () => {
         document.body.classList.toggle("dark");
-        const isDark = document.body.classList.contains("dark");
-        themeBtn.textContent = isDark ? "\u2600" : "\u263D";
-        localStorage.setItem("waffle-theme", isDark ? "dark" : "light");
+        localStorage.setItem("waffle-theme", document.body.classList.contains("dark") ? "dark" : "light");
     };
 
     const infoBtn = document.getElementById("infoBtn");

@@ -46,6 +46,7 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     flex-shrink: 0;
+    color: #333;
 }
 
 .topbar-btn:hover {
@@ -55,6 +56,15 @@ body {
 body.dark .topbar-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+body.dark .topbar-btn {
+    color: #ffffff;
+}
+
+.icon-sun { display: block; }
+.icon-moon { display: none; }
+body.dark .icon-sun { display: none; }
+body.dark .icon-moon { display: block; }
 
 .game {
     display: flex;
