@@ -278,6 +278,154 @@ body.dark .controls button {
     color: #888;
 }
 
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+body.dark .modal {
+    background-color: #2a2a2c;
+    color: #ffffff;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+body.dark .modal-header {
+    border-bottom-color: #444;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-family: inherit;
+}
+
+.modal-close {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    padding: 0;
+    line-height: 1;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark .modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .modal-close {
+    color: #aaa;
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.modal-body h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.1rem;
+    font-family: inherit;
+}
+
+.modal-body h3:first-child {
+    margin-top: 0;
+}
+
+.modal-body p {
+    margin: 0 0 0.5rem;
+    color: #666;
+    font-weight: 400;
+}
+
+body.dark .modal-body p {
+    color: #aaa;
+}
+
+.modal-body ul {
+    margin: 0;
+    padding-right: 1.5rem;
+    font-weight: 400;
+}
+
+.modal-body li {
+    margin: 0.3rem 0;
+}
+
+.color-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+}
+
+.color-box {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.color-box.solved {
+    background-color: #5ab4ac;
+}
+
+.color-box.hint {
+    background-color: #d8b365;
+}
+
+.color-hint span {
+    font-weight: 400;
+}
+
 @media (max-width: 480px) {
     .topbar {
         padding: 0.5rem 0.75rem;

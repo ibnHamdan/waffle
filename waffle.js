@@ -540,4 +540,34 @@ new GameEnvironment(document.getElementById("game"));
         themeBtn.textContent = isDark ? "\u2600" : "\u263D";
         localStorage.setItem("waffle-theme", isDark ? "dark" : "light");
     };
+
+    const infoBtn = document.getElementById("infoBtn");
+    const closeModal = document.getElementById("closeModal");
+    const infoModal = document.getElementById("infoModal");
+
+    if (infoBtn && closeModal && infoModal) {
+        infoBtn.onclick = () => {
+            infoModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
+
+        closeModal.onclick = () => {
+            infoModal.classList.remove("active");
+            document.body.style.overflow = "";
+        };
+
+        infoModal.onclick = (e) => {
+            if (e.target === infoModal) {
+                infoModal.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+        };
+
+        infoModal.onkeydown = (e) => {
+            if (e.key === "Escape") {
+                infoModal.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+        };
+    }
 })();

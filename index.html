@@ -17,10 +17,42 @@
 </head>
 <body>
     <header class="topbar">
-        <button class="topbar-btn info-btn" aria-label="معلومات">&#9432;</button>
+        <button class="topbar-btn info-btn" id="infoBtn" aria-label="معلومات">&#9432;</button>
         <h1 class="topbar-title">وافل</h1>
         <button class="topbar-btn theme-btn" aria-label="تبديل المظهر">&#9789;</button>
     </header>
+
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>كيفية اللعب</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>وافل هي لعبة كلمات تهدف فيها إلى حل اللغز عن طريق تبادل الأحرف.</p>
+                <h3>القواعد</h3>
+                <ul>
+                    <li>قم بتبادل حرفين لإصلاح الكلمات المتقاطعة</li>
+                    <li>استخدم <strong>15</strong> تبديلات فقط</li>
+                    <li>الأحرف الموجودة في الزوايا لا يمكن تغييرها</li>
+                </ul>
+                <h3>كيفية اللعب</h3>
+                <ul>
+                    <li>انقر على حرفين مختلفين لتبديلهما</li>
+                    <li>أو اسحب حرفاً وأفلته على حرف آخر</li>
+                </ul>
+                <h3>الألوان</h3>
+                <div class="color-hint">
+                    <div class="color-box solved"></div>
+                    <span>تم حلها - الحرف في مكانه الصحيح</span>
+                </div>
+                <div class="color-hint">
+                    <div class="color-box hint"></div>
+                    <span>تلميح - الحرف موجود لكن ليس في مكانه</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="game" id="game">
         <div class="grid-container">
             <section class="grid" tabindex="0"></section>
